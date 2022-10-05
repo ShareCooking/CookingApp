@@ -16,6 +16,10 @@ function HomeScreen(): React.ReactElement {
   );
 }
 
+function test() {
+  console.log('test');
+}
+
 const Stack = createNativeStackNavigator();
 
 export default function Page(): React.ReactElement {
