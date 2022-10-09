@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { Text, View } from 'react-native';
-import Login from './pages/signIn';
+import SignIn from './pages/signIn';
 
 function HomeScreen() {
   return (
@@ -13,7 +13,7 @@ function HomeScreen() {
 }
 
 function SettingsScreen(): React.ReactElement {
-  return <Login />;
+  return <SignIn />;
 }
 
 const Tab = createBottomTabNavigator();
