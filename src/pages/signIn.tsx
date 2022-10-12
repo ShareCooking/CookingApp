@@ -3,7 +3,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
-export default function Login() {
+export default function SignIn() {
   const navigation = useNavigation();
 
   return (
