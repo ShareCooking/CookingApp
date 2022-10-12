@@ -1,10 +1,17 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { SafeAreaView, View } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
+import { Appbar, Button, TextInput } from 'react-native-paper';
 
 export default function SignUp() {
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView>
+      <Appbar.Header>
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="SignUp" />
+      </Appbar.Header>
       <View style={{ padding: 10 }}>
         <TextInput label="ID" />
         <TextInput style={{ marginTop: 10 }} label="Password" secureTextEntry />
