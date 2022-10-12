@@ -7,7 +7,7 @@ export default function SignIn() {
   const navigation = useNavigation();
 
   return (
-    <View style={{ padding: 10 }}>
+    <View style={{ padding: 10, justifyContent: 'center', height: '100%' }}>
       <TextInput label="ID / e-mail" />
       <TextInput style={{ marginTop: 10 }} label="Password" secureTextEntry />
       <Button style={{ marginTop: 10 }} mode="outlined">
