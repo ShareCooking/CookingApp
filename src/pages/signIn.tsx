@@ -26,6 +26,7 @@ export default function SignIn() {
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput label="ID / e-mail"
+            autoCapitalize="none"
             onBlur={onBlur}
             onChangeText={onChange}
             value={value}
