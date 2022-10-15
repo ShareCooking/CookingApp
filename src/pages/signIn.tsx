@@ -3,18 +3,21 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import * as Fetch from '../utils/fetch';
 
 export default function SignIn() {
   const navigation = useNavigation();
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       id: '',
       password: '',
     },
   });
 
-  function onSubmit(data: { id: string; password: string; }) {
+  async function onSubmit(data: { id: string; password: string; }) {
     console.log('onSubmit', data);
+    const response = await Fetch.post('http://localhost:8080/cooking/main/login.do', data );
+    console.log('response', response);
   }
 
   return (
