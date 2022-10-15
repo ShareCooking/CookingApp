@@ -8,7 +8,8 @@ import * as Fetch from '../utils/fetch';
 
 export default function SignUp() {
   const navigation = useNavigation();
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, getValues, formState } = useForm({
+    mode: 'onChange',
     defaultValues: {
       id: '',
       password: '',
@@ -36,9 +37,7 @@ export default function SignUp() {
       <View style={{ padding: 10 }}>
         <Controller
           control={control}
-          rules={{
-          required: true,
-          }}
+          rules={{ required: true }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput label="ID"
               autoCapitalize="none"
@@ -52,7 +51,8 @@ export default function SignUp() {
         <Controller
           control={control}
           rules={{
-          required: true,
+            required: true,
+            minLength: 8,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput style={{ marginTop: 10 }} label="Password" secureTextEntry
@@ -66,7 +66,9 @@ export default function SignUp() {
         <Controller
           control={control}
           rules={{
-          required: true,
+            required: true,
+            minLength: 8, 
+            validate: (newValue) => newValue === getValues('password')
           }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput style={{ marginTop: 10 }}
@@ -81,9 +83,6 @@ export default function SignUp() {
         />
         <Controller
           control={control}
-          rules={{
-          required: true,
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput style={{ marginTop: 10 }}
               label="Address"
@@ -96,9 +95,6 @@ export default function SignUp() {
         />
         <Controller
           control={control}
-          rules={{
-          required: true,
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput style={{ marginTop: 10 }}
               label="Phone"
@@ -111,9 +107,6 @@ export default function SignUp() {
         />
         <Controller
           control={control}
-          rules={{
-          required: true,
-          }}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput style={{ marginTop: 10 }}
               label="Birthday"
@@ -124,7 +117,7 @@ export default function SignUp() {
           )}
           name="birthday"
         />
-        <Button style={{ marginTop: 10 }} mode="outlined" onPress={handleSubmit(onSubmit)}>
+        <Button style={{ marginTop: 10 }} mode="outlined" onPress={handleSubmit(onSubmit)} disabled={!formState.isValid}>
           Create New Account
         </Button>
       </View>

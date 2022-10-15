@@ -7,7 +7,8 @@ import * as Fetch from '../utils/fetch';
 
 export default function SignIn() {
   const navigation = useNavigation();
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, formState } = useForm({
+    mode: 'onChange',
     defaultValues: {
       id: '',
       password: '',
@@ -41,6 +42,7 @@ export default function SignIn() {
         control={control}
         rules={{
          required: true,
+         minLength: 8,
         }}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput style={{ marginTop: 10 }} label="Password" secureTextEntry
@@ -51,7 +53,7 @@ export default function SignIn() {
         )}
         name="password"
       />
-      <Button style={{ marginTop: 10 }} mode="outlined" onPress={handleSubmit(onSubmit)}>
+      <Button style={{ marginTop: 10 }} mode="outlined" onPress={handleSubmit(onSubmit)} disabled={!formState.isValid}>
         Sign in
       </Button>
       <Button style={{ marginTop: 10 }} mode="text" onPress={() => navigation.navigate('SignUp' as never)}>
