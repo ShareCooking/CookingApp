@@ -1,10 +1,32 @@
 import { useNavigation } from '@react-navigation/native';
+import { omit } from 'lodash';
 import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { SafeAreaView, View } from 'react-native';
 import { Appbar, Button, TextInput } from 'react-native-paper';
+import * as Fetch from '../utils/fetch';
 
 export default function SignUp() {
   const navigation = useNavigation();
+  const { control, handleSubmit, getValues, formState } = useForm({
+    mode: 'onChange',
+    defaultValues: {
+      id: '',
+      password: '',
+      confirmPW: '',
+      address: '',
+      phone: '',
+      birthday: '',
+    },
+  });
+
+  async function onSubmit(data: any) {
+    console.log('data', data);
+    const body = omit(data, 'confirmPW');
+    console.log('body', body);
+    const response = await Fetch.post('http://localhost:8080//cooking/main/regist.do', body );
+    console.log('response', response);
+  }
 
   return (
     <SafeAreaView>
@@ -13,17 +35,89 @@ export default function SignUp() {
         <Appbar.Content title="SignUp" />
       </Appbar.Header>
       <View style={{ padding: 10 }}>
-        <TextInput label="ID" />
-        <TextInput style={{ marginTop: 10 }} label="Password" secureTextEntry />
-        <TextInput
-          style={{ marginTop: 10 }}
-          label="Confirm Password"
-          secureTextEntry
+        <Controller
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput label="ID"
+              autoCapitalize="none"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="id"
         />
-        <TextInput style={{ marginTop: 10 }} label="Address" />
-        <TextInput style={{ marginTop: 10 }} label="Phone" />
-        <TextInput style={{ marginTop: 10 }} label="Birthday" />
-        <Button style={{ marginTop: 10 }} mode="outlined">
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 8,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={{ marginTop: 10 }} label="Password" secureTextEntry
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="password"
+        />
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+            minLength: 8, 
+            validate: (newValue) => newValue === getValues('password')
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={{ marginTop: 10 }}
+              label="Confirm Password"
+              secureTextEntry  
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="confirmPW"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={{ marginTop: 10 }}
+              label="Address"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="address"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={{ marginTop: 10 }}
+              label="Phone"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="phone"
+        />
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput style={{ marginTop: 10 }}
+              label="Birthday"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="birthday"
+        />
+        <Button style={{ marginTop: 10 }} mode="outlined" onPress={handleSubmit(onSubmit)} disabled={!formState.isValid}>
           Create New Account
         </Button>
       </View>
